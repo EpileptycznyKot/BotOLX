@@ -1,15 +1,31 @@
+import helpers.Ogloszenie;
+import tests.Runner;
 import tests.TempTests;
 
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class main {
     public static void main(String[] args) throws InterruptedException {
-        TempTests tmp = new TempTests();
-        tmp.start();
-        tmp.test();
-        //List<String> linki = tmp.getAllLinks();
-        //linki.forEach(System.out::println);
-        //Thread.sleep(10000);
-        //tmp.finish();
+        Map<String, Ogloszenie> znane = new HashMap<>();
+        List<Ogloszenie> ogloszeniaTmp;
+
+        Runner run = new Runner();
+
+        while(true) {
+            ogloszeniaTmp = run.start(znane);
+            for (Ogloszenie o : ogloszeniaTmp) {
+                if(!znane.containsKey(o.getLink())){
+                    znane.put(o.getLink(), o);
+                    System.out.println(getCurrentTime()+" : "+ o);
+                }
+            }
+        }
+    }
+
+    private static String getCurrentTime(){
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
+        Date data = new Date();
+        return formatter.format(data);
     }
 }

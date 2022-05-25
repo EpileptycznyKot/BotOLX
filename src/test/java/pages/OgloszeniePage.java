@@ -12,14 +12,11 @@ import java.util.Date;
 
 public class OgloszeniePage {
     private WebDriver driver;
-    private WebDriverWait wait;
-    private boolean bannerClosed;
+
 
     public OgloszeniePage(WebDriver driver){
         this.driver = driver;
-        wait = new WebDriverWait(this.driver, Duration.ofSeconds(5));
         PageFactory.initElements(this.driver, this);
-        bannerClosed = false;
     }
 
     @FindBy(xpath = "//h3[@class='css-okktvh-Text eu5v0x0']")
@@ -54,7 +51,6 @@ public class OgloszeniePage {
     }
 
     private int getTimeInMinutesSincePost(String timePosted){
-
         String currentTime = getCurrentTime();
         int currentTimeValue = convertTimeToInteger(currentTime);
         int timePostedValue = convertTimeToInteger(timePosted);
@@ -69,6 +65,9 @@ public class OgloszeniePage {
 
     private int convertTimeToInteger(String czas){
         String []time = czas.split(":");
+        if(time.length != 2){
+            return 0;
+        }
         return Integer.valueOf(time[0])*60+Integer.valueOf(time[1]);
     }
 
